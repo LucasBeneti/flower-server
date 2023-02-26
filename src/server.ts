@@ -3,6 +3,7 @@ import { env } from "./env";
 import { connectDatabase } from "./database/db";
 import { deviceRoutes } from "./routes/device.route";
 import { measurementsRoutes } from "./routes/measurements.route";
+import { userRoutes } from "./routes/user.route";
 
 const app = fastify();
 
@@ -10,6 +11,7 @@ connectDatabase();
 
 app.register(measurementsRoutes, { prefix: "measurements" });
 app.register(deviceRoutes, { prefix: "devices" });
+app.register(userRoutes, { prefix: "user" });
 
 app.addHook("preHandler", async (request) => {
 	console.log(`[${request.method}] ${request.url}`);

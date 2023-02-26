@@ -1,24 +1,38 @@
 import mongoose, { Schema } from "mongoose";
+import { z } from "zod";
 
-type Room = {
+import { DeviceAttrSchema, IDevice } from "./device.model";
+
+export const RoomSchema = z.object({
+	name: z.string(),
+	devices: z.array(DeviceAttrSchema),
+	coverArea: z.number(),
+});
+
+export type RoomType = {
 	name: string;
-	devices: [];
-	cover_area?: number;
+	devices?: string[];
+	coverArea?: number;
 };
 
+// pro usuario cadastrar um device, precisa antes criar uma sala,
+// e dentro dessa info, ele passa a serial do device que quer atrelar
+// àquela sala
 export interface IUser {
 	id: string;
 	email: string;
-	devices?: [];
-	rooms: Room[];
+	rooms?: RoomType[];
 }
 
 const UserSchema = new Schema<IUser>({
-	id: String,
-	email: String,
-	devices: [],
+	id: { type: String, required: true },
+	email: { type: String, required: true },
 	rooms: [
-		{ name: String, devices: [{ serial: String }], cover_area: Number },
+		{
+			name: { type: String, required: true },
+			devices: [String],
+			coverArea: Number,
+		},
 	],
 });
 
