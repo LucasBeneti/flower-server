@@ -47,3 +47,20 @@ const airPortion = vpAir * (testRh / 100);
 const leafVPD = lsvp - airPortion;
 
 console.log("leafVPD", leafVPD);
+
+// ******* DEW POINT *******
+
+// é o ponto de orvalho, o ponto máximo do ar segurar umidade dada uma certa temperatura
+// depois disso, o vapor de água fica liquido
+
+// tem equacoes mais complicadas, porém tem uma com aproximação bem razoável apresentada num artigo de 2005
+// que é a seguinte:
+const dewPointTemp = (airTemp: number, relativeHumidity: number) => {
+	const td = airTemp - (100 - relativeHumidity) / 5;
+	return td;
+};
+
+console.log(
+	"Dew point temperature for 24*C (air temp) and 63%",
+	dewPointTemp(24, 63)
+);
